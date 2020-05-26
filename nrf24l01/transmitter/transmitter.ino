@@ -4,7 +4,7 @@
 #include <RF24.h>
 
 
-RF24 radio(9,8); //CE, CSn
+RF24 radio(8,9); //CE, CSn
 const byte address[6] = "00001";
 
 void setup() {

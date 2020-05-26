@@ -15,7 +15,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("no");
   if(radio.available()){
     char text[32] = "";
     radio.read(&text, sizeof(text));
