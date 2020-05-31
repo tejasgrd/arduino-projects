@@ -5,11 +5,11 @@
 
 #define THROTTLE A0
 #define YAW A1
-#define PITCH A1
-#define ROLL A1
+#define PITCH A2
+#define ROLL A3
 
 const uint64_t  pipeOut = 0x2AA72940;
-RF24 radio (9,8); // CE, CSN pins 
+RF24 radio (7,8); // CE, CSN pins 
 
 
 struct Signal{
@@ -30,6 +30,9 @@ void resetData(){
 }
 
 void setup() {
+   //TEST
+  Serial.begin(9600);
+  
   radio.begin();
   radio.openWritingPipe(pipeOut);
   radio.stopListening();
@@ -57,4 +60,13 @@ void loop() {
       data.roll = mapJoystickValues( analogRead(ROLL), 12, 524, 1020, true );
       //SEND DATA TO TX
       radio.write(&data,sizeof(Signal));
+      //TEST
+      Serial.println("Throttle: ");
+      Serial.println(data.throttle);
+      Serial.println("Yaw : ");
+      Serial.println(data.yaw);
+      Serial.println("pitch : ");
+      Serial.println(data.pitch);
+      Serial.println("Roll : ");
+      Serial.println(data.roll);
 }
