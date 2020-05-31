@@ -4,7 +4,7 @@
 #include <RF24.h>
 
 const uint64_t  pipeIn = 0x2AA72940;
-RF24 radio(7,8); // CE, CSN pins 
+RF24 radio(7, 8); // CE, CSn
 
 struct Signal{
   byte throttle; // A0
@@ -53,12 +53,13 @@ void loop() {
     resetData();
   }
   //TEST
-  Serial.println("Throttle: ");
-  Serial.println(data.throttle);
-  Serial.println("Yaw : ");
-  Serial.println(data.yaw);
-  Serial.println("pitch : ");
-  Serial.println(data.pitch);
-  Serial.println("Roll : ");
-  Serial.println(data.roll);
+  Serial.print("Throttle: ");
+  Serial.print(data.throttle);
+  Serial.print(", Yaw : ");
+  Serial.print(data.yaw);
+  Serial.print(", pitch : ");
+  Serial.print(data.pitch);
+  Serial.print(", Roll : ");
+  Serial.print(data.roll);
+  Serial.println("------END-------");
 }

@@ -9,7 +9,7 @@
 #define ROLL A3
 
 const uint64_t  pipeOut = 0x2AA72940;
-RF24 radio (7,8); // CE, CSN pins 
+RF24 radio(8,9); //CE, CSn
 
 
 struct Signal{
@@ -54,19 +54,20 @@ int mapJoystickValues(int val , int lower, int middle, int upper, bool reverse)
   return ( reverse ? 255 - val : val );
 }
 void loop() {
-      data.throttle = mapJoystickValues( analogRead(THROTTLE), 524, 524, 1015, true );
+      data.throttle = mapJoystickValues( analogRead(THROTTLE), 12, 524, 1015, true );
       data.yaw = mapJoystickValues( analogRead(YAW), 12, 524, 1020, true );
       data.pitch = mapJoystickValues( analogRead(PITCH), 12, 524, 1020, true );
       data.roll = mapJoystickValues( analogRead(ROLL), 12, 524, 1020, true );
       //SEND DATA TO TX
       radio.write(&data,sizeof(Signal));
       //TEST
-      Serial.println("Throttle: ");
-      Serial.println(data.throttle);
-      Serial.println("Yaw : ");
-      Serial.println(data.yaw);
-      Serial.println("pitch : ");
-      Serial.println(data.pitch);
-      Serial.println("Roll : ");
-      Serial.println(data.roll);
+      Serial.print("Throttle: ");
+      Serial.print(data.throttle);
+      Serial.print(" , Yaw : ");
+      Serial.print(data.yaw);
+      Serial.print(", pitch : ");
+      Serial.print(data.pitch);
+      Serial.print(", Roll : ");
+      Serial.print(data.roll);
+      Serial.println("------");
 }
