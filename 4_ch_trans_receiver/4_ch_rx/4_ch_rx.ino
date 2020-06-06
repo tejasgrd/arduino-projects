@@ -2,9 +2,20 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
+#include <Servo.h>
 
+int ch_width_1 = 0;
+//ch_2
+int ch_width_2 = 0;
+int ch_width_3 = 0;
+int ch_width_4 = 0;
 const uint64_t  pipeIn = 0x2AA72940;
 RF24 radio(7, 8); // CE, CSn
+
+Servo ch1;
+Servo ch2;
+Servo ch3;
+Servo ch4;
 
 struct Signal{
   byte throttle; // A0
@@ -37,6 +48,13 @@ void setup() {
 
   //TEST
   Serial.begin(9600);
+
+  //Setup Servo Throttle
+  ch1.attach(2);
+
+  ch2.attach(3);
+  ch3.attach(4);
+  ch4.attach(5);
   
   resetData();
   radio.begin();
@@ -55,11 +73,21 @@ void loop() {
   //TEST
   Serial.print("Throttle: ");
   Serial.print(data.throttle);
+  ch_width_1 = map(data.throttle, 0, 252, 1000, 2000);
   Serial.print(", Yaw : ");
   Serial.print(data.yaw);
+  ch_width_2 = map(data.pitch,    0, 255, 1000, 2000);     // pin D3 (PWM signal)
+  ch_width_3 = map(data.roll,     0, 255, 1000, 2000);     // pin D4 (PWM signal)
+  ch_width_4 = map(data.yaw,      0, 255, 1000, 2000); 
   Serial.print(", pitch : ");
   Serial.print(data.pitch);
   Serial.print(", Roll : ");
   Serial.print(data.roll);
   Serial.println("------END-------");
+
+  ch1.writeMicroseconds(ch_width_1);
+  ch2.writeMicroseconds(ch_width_2);
+  ch3.writeMicroseconds(ch_width_3);
+  ch4.writeMicroseconds(ch_width_4);
+  
 }
