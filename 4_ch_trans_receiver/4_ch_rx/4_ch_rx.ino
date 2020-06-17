@@ -58,6 +58,8 @@ void setup() {
   
   resetData();
   radio.begin();
+  radio.setAutoAck(false);
+  radio.setDataRate(RF24_250KBPS);
   radio.openReadingPipe(1,pipeIn);
   radio.startListening(); 
 
